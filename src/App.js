@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Spaces from './components/Spaces.js'
+import PageNav from './components/PageNav.js'
 
 class App extends Component {
   constructor() {
@@ -9,14 +10,12 @@ class App extends Component {
       spaces : [],
       currentPage : 1,
       perPage : 10,
-      //pagesTotal : null,
+      spacesTotal: null,
       isLoading : true
     }
   }
 
   pageNavigate = () => {
-    // write function to change state of current page to either
-    // next or previous page (++ or --)
     console.log('next')
     this.setState(
       prevState => ({
@@ -44,36 +43,19 @@ class App extends Component {
       let data = await res.json()
       this.setState({
         spaces: data.data,
-        isLoading: true
+        isLoading: true,
+        spacesTotal: data.total
       })
       this.setState({
         isLoading: false
       })
-      console.log(this.state.spaces)
       console.log(this.state)
     }
 
-    getTotalPages() {
-      const { spaces, currentPage, perPage } = this.state
-      let pagesTotal = []
-      
-      for (let i = 1; i < spaces.length / perPage; i++) {
-        pagesTotal.push(i)
-      }
 
-      pagesTotal.map(number => {
-        return (
-          <li
-            key={number}
-            id ={number} >
-            {number}
-          </li>
-        )
-      })
-    }
 
-  componentDidMount() {
-    this.fetchSpaces()
+  async componentDidMount() {
+    await(this.fetchSpaces())
   }
 
   componentDidUpdate() {
@@ -81,6 +63,25 @@ class App extends Component {
   }
 
   render() {
+
+    // const { spaces, currentPage, perPage, spacesTotal} = this.state
+    // const pageNumbers = []
+    // for (let i = 1; i <= Math.ceil(spacesTotal / perPage); i++) {
+    //   pageNumbers.push(i);
+    // }
+
+    // const renderPageNumbers = pageNumbers.map(number => {
+    //   console.log(pageNumbers)
+    //   return (
+    //     <li
+    //       key={number}
+    //       id={number}
+    //       onClick={this.handleClick}
+    //     >
+    //       {number}
+    //     </li>
+    //   );
+    // })
 
     return (
       
@@ -98,10 +99,10 @@ class App extends Component {
 
         <div className='pagination-nav'>
           <button onClick={()=>{this.pageNavigate('PREV')}}>prev</button>
-          {this.getTotalPages}
+          
           <button onClick={()=>{this.pageNavigate('NEXT')}}>next</button>
         </div>
-
+        <div> <PageNav {...this.state}/> </div>
       </div>
     )
   }
