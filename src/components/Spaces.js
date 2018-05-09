@@ -10,7 +10,7 @@ class Spaces extends Component {
                 key= {id}/>
     })
     return (
-      <div className='spaces-container'>
+      <div className='spaces-container row'>
         {spaces}
       </div>
     )

@@ -10,7 +10,6 @@ class PageNav extends Component {
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
-      console.log(number)
       return (   
            
         <span className='page-number-container'>
@@ -27,9 +26,9 @@ class PageNav extends Component {
       )
     }) 
     return(
-      <div> 
+      <span> 
         {renderPageNumbers}
-      </div>
+      </span>
     )
   }
 }

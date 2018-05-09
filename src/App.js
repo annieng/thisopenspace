@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './skeleton/css/skeleton.css'
+import './App.css'
 
 // Components //
 import Spaces from './components/Spaces.js'
@@ -19,28 +20,22 @@ class App extends Component {
   }
 
   pageNavigate(prevOrNext) {
-    console.log('nextOrPrev')
-    
-    this.setState(
-      prevState => ({
-        isLoading: true,
-        currentPage: 
-          prevOrNext === 'NEXT' 
-            ? this.state.currentPage + 1
-            : this.state.currentPage - 1
-      }),
-      this.fetchSpaces()
-    )
+    this.setState ({
+      isLoading: true,
+      currentPage:
+        prevOrNext === 'NEXT'
+          ? this.state.currentPage + 1
+          : this.state.currentPage - 1
+    }),
+    this.fetchSpaces()
   }
 
   jumpTo = (number) => {
-
     this.setState({
       currentPage: number,
       isLoading: true
     }),
       this.fetchSpaces()
-
   }
 
   async fetchSpaces() {
@@ -53,8 +48,7 @@ class App extends Component {
       }),
       this.setState({
         isLoading: false
-      }),
-      this.forceUpdate()
+      })
     }
 
   componentDidMount() {
@@ -74,20 +68,20 @@ class App extends Component {
         <div className='header'>
           <img className='openspace-logo' src='./logo.jpg' alt='logo' />
           <img className='openspace-header' src='./header.png' alt='png' />
-        </div>
-
-        
-        {this.state.isLoading ? (
+        </div> 
+   
+        {this.state.isLoading ? 
+        (
           <Loading />
-        ) : (
-        
+        ) : 
+        (        
           <Spaces 
             spaces={this.state.spaces} />
         )
       }
         <div className='pagination-nav'>
           <span>
-            <button onClick={()=>{this.pageNavigate('PREV')}}>prev</button>
+            <button className='nav-button' onClick={() => { this.pageNavigate('PREV') }} disabled={this.state.currentPage === 1}>&#9001;&#9001;</button>
           </span>
        
           <PageNav 
@@ -96,9 +90,8 @@ class App extends Component {
             spacesTotal = {this.state.spacesTotal}
             jumpTo={this.jumpTo}        
           /> 
-   
           <span>
-            <button onClick={()=>{this.pageNavigate('NEXT')}}>next</button>
+            <button className='nav-button' onClick={() => { this.pageNavigate('NEXT') }} disabled={this.state.currentPage === 4}>&#9002;&#9002;</button>
           </span>
         </div>
       </div>
