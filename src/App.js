@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
+
+// Components //
 import Spaces from './components/Spaces.js'
 import PageNav from './components/PageNav.js'
+import Loading from './components/Loading.js'
 
 class App extends Component {
   constructor() {
@@ -15,47 +18,47 @@ class App extends Component {
     }
   }
 
-  pageNavigate = () => {
-    console.log('next')
-    this.setState(
-      prevState => ({
-        currentPage: this.state.currentPage + 1
-      }),
-      () => this.fetchSpaces()
-    )
-  }
-
   pageNavigate(prevOrNext) {
     console.log('nextOrPrev')
     
     this.setState(
       prevState => ({
+        isLoading: true,
         currentPage: 
           prevOrNext === 'NEXT' 
-            ? prevState.currentPage + 1
-            : prevState.currentPage - 1
-
-      })
+            ? this.state.currentPage + 1
+            : this.state.currentPage - 1
+      }),
+      this.fetchSpaces()
     )
   }
- async fetchSpaces(page, perPage) {
+
+  jumpTo = (number) => {
+
+    this.setState({
+      currentPage: number,
+      isLoading: true
+    }),
+      this.fetchSpaces()
+
+  }
+
+  async fetchSpaces() {
       let res = await fetch('https://thisopenspace.com/lhl-test?page=' + this.state.currentPage)
       let data = await res.json()
       this.setState({
         spaces: data.data,
         isLoading: true,
         spacesTotal: data.total
-      })
+      }),
       this.setState({
         isLoading: false
-      })
-      console.log(this.state)
+      }),
+      this.forceUpdate()
     }
 
-
-
-  async componentDidMount() {
-    await(this.fetchSpaces())
+  componentDidMount() {
+    this.fetchSpaces()
   }
 
   componentDidUpdate() {
@@ -63,25 +66,6 @@ class App extends Component {
   }
 
   render() {
-
-    // const { spaces, currentPage, perPage, spacesTotal} = this.state
-    // const pageNumbers = []
-    // for (let i = 1; i <= Math.ceil(spacesTotal / perPage); i++) {
-    //   pageNumbers.push(i);
-    // }
-
-    // const renderPageNumbers = pageNumbers.map(number => {
-    //   console.log(pageNumbers)
-    //   return (
-    //     <li
-    //       key={number}
-    //       id={number}
-    //       onClick={this.handleClick}
-    //     >
-    //       {number}
-    //     </li>
-    //   );
-    // })
 
     return (
       
@@ -92,17 +76,31 @@ class App extends Component {
           <img className='openspace-header' src='./header.png' alt='png' />
         </div>
 
-        <div className='spaces-container'>
+        
+        {this.state.isLoading ? (
+          <Loading />
+        ) : (
+        
           <Spaces 
             spaces={this.state.spaces} />
-        </div>
-
+        )
+      }
         <div className='pagination-nav'>
-          <button onClick={()=>{this.pageNavigate('PREV')}}>prev</button>
-          
-          <button onClick={()=>{this.pageNavigate('NEXT')}}>next</button>
+          <span>
+            <button onClick={()=>{this.pageNavigate('PREV')}}>prev</button>
+          </span>
+       
+          <PageNav 
+            curentPage = {this.state.currentPage}
+            perPage = {this.state.perPage}
+            spacesTotal = {this.state.spacesTotal}
+            jumpTo={this.jumpTo}        
+          /> 
+   
+          <span>
+            <button onClick={()=>{this.pageNavigate('NEXT')}}>next</button>
+          </span>
         </div>
-        <div> <PageNav {...this.state}/> </div>
       </div>
     )
   }

@@ -3,24 +3,28 @@ import React, {Component} from 'react'
 class PageNav extends Component {
 
   render() {
-
-    const { spaces, currentPage, perPage, spacesTotal } = this.props
+    const { currentPage, perPage, spacesTotal } = this.props
     const pageNumbers = []
     for (let i = 1; i <= Math.ceil(spacesTotal / perPage); i++) {
       pageNumbers.push(i);
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
-      console.log(pageNumbers)
-      return (
-        <li
+      console.log(number)
+      return (   
+           
+        <span className='page-number-container'>
+          <button
+          className='page-number-display'
           key={number}
           id={number}
-          onClick={this.handleClick}
+          number={number}
+          onClick={() => {this.props.jumpTo(number)}}     
         >
-          {number}
-        </li>
-      );
+        {number}
+        </button>
+        </span>
+      )
     }) 
     return(
       <div> 
