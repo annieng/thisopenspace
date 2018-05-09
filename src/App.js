@@ -35,7 +35,7 @@ class App extends Component {
       currentPage: number,
       isLoading: true
     }),
-      this.fetchSpaces()
+    this.fetchSpaces()
   }
 
   async fetchSpaces() {
@@ -48,7 +48,8 @@ class App extends Component {
       }),
       this.setState({
         isLoading: false
-      })
+      }),
+      this.forceUpdate()
     }
 
   componentDidMount() {

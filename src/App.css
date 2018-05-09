@@ -2,6 +2,10 @@
 
   font-family: 'Raleway', sans-serif;
 }
+.loading-container {
+  text-align: center;
+  size: 50rem;
+}
 
 .header {
   border-bottom: 1px solid grey; 
@@ -78,7 +82,9 @@
   border: none;
   font-size: 2rem;
 }
-
+.nav-button:disabled {
+  color: white;
+}
 .nav-button:hover {
   color: blue;
 }
