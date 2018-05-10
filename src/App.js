@@ -11,23 +11,23 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      spaces : [],
-      currentPage : 1,
-      perPage : 10,
+      spaces: [],
+      currentPage: 1,
+      perPage: 10,
       spacesTotal: null,
-      isLoading : true
+      isLoading: true
     }
   }
 
   pageNavigate(prevOrNext) {
-    this.setState ({
+    this.setState({
       isLoading: true,
       currentPage:
         prevOrNext === 'NEXT'
           ? this.state.currentPage + 1
           : this.state.currentPage - 1
     }),
-    console.log(this.state.currentPage + 'navigating')
+      console.log(this.state.currentPage + 'navigating')
   }
 
   jumpTo = (number) => {
@@ -36,72 +36,72 @@ class App extends Component {
       currentPage: number,
       isLoading: true
     }),
-    console.log(this.state.currentPage +'jump')
+      console.log(this.state.currentPage + 'jump')
   }
 
-  
+
   async fetchSpaces() {
-      let res = await fetch('https://thisopenspace.com/lhl-test?page=' + this.state.currentPage)
-      let data = await res.json()
-      this.setState({
-        spaces: data.data,
-        isLoading: true,
-        spacesTotal: data.total
-      }),
+    let res = await fetch('https://thisopenspace.com/lhl-test?page=' + this.state.currentPage)
+    let data = await res.json()
+    this.setState({
+      spaces: data.data,
+      isLoading: true,
+      spacesTotal: data.total
+    }),
       console.log(this.state.currentPage + 'async fetch')
-      this.setState({
-        isLoading: false
-      })
-      console.log(this.state.currentPage + 'isLoading should be false' + this.state.isLoading)
-      this.forceUpdate()
-    }
+    this.setState({
+      isLoading: false
+    })
+    console.log(this.state.currentPage + 'isLoading should be false' + this.state.isLoading)
+    this.forceUpdate()
+  }
 
   componentDidMount() {
     this.fetchSpaces()
- 
+
     console.log(this.state.currentPage + 'component mount')
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.currentPage !== prevState.currentPage){
+    if (this.state.currentPage !== prevState.currentPage) {
       this.fetchSpaces()
-      window.scrollTo(0,0)
+      window.scrollTo(0, 0)
       console.log(this.state.currentPage + 'component update')
     }
   }
-  
+
 
   render() {
-  
+
     return (
-      
+
       <div className='App'>
 
         <div className='header'>
           <img className='openspace-logo' src='./logo.jpg' alt='logo' />
           <img className='openspace-header' src='./header.png' alt='png' />
-        </div> 
-   
-        {this.state.isLoading ? 
-        (
-          <Loading />
-        ) : 
-        (        
-          <Spaces 
-            spaces={this.state.spaces} />
-        )
-      }
+        </div>
+
+        {this.state.isLoading ?
+          (
+            <Loading />
+          ) :
+          (
+            <Spaces
+              spaces={this.state.spaces} />
+          )
+        }
         <div className='pagination-nav'>
           <span>
             <button className='nav-button' onClick={() => { this.pageNavigate('PREV') }} disabled={this.state.currentPage === 1}>&#9001;&#9001;</button>
           </span>
-       
-          <PageNav 
-            curentPage = {this.state.currentPage}
-            perPage = {this.state.perPage}
-            spacesTotal = {this.state.spacesTotal}
-            jumpTo={this.jumpTo}        
-          /> 
+
+          <PageNav
+            curentPage={this.state.currentPage}
+            perPage={this.state.perPage}
+            spacesTotal={this.state.spacesTotal}
+            jumpTo={this.jumpTo}
+          />
           <span>
             <button className='nav-button' onClick={() => { this.pageNavigate('NEXT') }} disabled={this.state.currentPage === 4}>&#9002;&#9002;</button>
           </span>
