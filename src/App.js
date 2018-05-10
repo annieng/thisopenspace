@@ -27,17 +27,19 @@ class App extends Component {
           ? this.state.currentPage + 1
           : this.state.currentPage - 1
     }),
-    this.fetchSpaces()
+    console.log(this.state.currentPage + 'navigating')
   }
 
   jumpTo = (number) => {
+    console.log(number)
     this.setState({
       currentPage: number,
       isLoading: true
     }),
-    this.fetchSpaces()
+    console.log(this.state.currentPage +'jump')
   }
 
+  
   async fetchSpaces() {
       let res = await fetch('https://thisopenspace.com/lhl-test?page=' + this.state.currentPage)
       let data = await res.json()
@@ -46,22 +48,31 @@ class App extends Component {
         isLoading: true,
         spacesTotal: data.total
       }),
+      console.log(this.state.currentPage + 'async fetch')
       this.setState({
         isLoading: false
-      }),
+      })
+      console.log(this.state.currentPage + 'isLoading should be false' + this.state.isLoading)
       this.forceUpdate()
     }
 
   componentDidMount() {
     this.fetchSpaces()
+ 
+    console.log(this.state.currentPage + 'component mount')
   }
 
-  componentDidUpdate() {
-    window.scrollTo(0,0)
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.currentPage !== prevState.currentPage){
+      this.fetchSpaces()
+      window.scrollTo(0,0)
+      console.log(this.state.currentPage + 'component update')
+    }
   }
+  
 
   render() {
-
+  
     return (
       
       <div className='App'>
