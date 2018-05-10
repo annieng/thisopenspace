@@ -39,7 +39,6 @@ class App extends Component {
       console.log(this.state.currentPage + 'jump')
   }
 
-
   async fetchSpaces() {
     let res = await fetch('https://thisopenspace.com/lhl-test?page=' + this.state.currentPage)
     let data = await res.json()
@@ -48,17 +47,13 @@ class App extends Component {
       isLoading: true,
       spacesTotal: data.total
     }),
-      console.log(this.state.currentPage + 'async fetch')
     this.setState({
       isLoading: false
     })
-    console.log(this.state.currentPage + 'isLoading should be false' + this.state.isLoading)
-    this.forceUpdate()
   }
 
   componentDidMount() {
     this.fetchSpaces()
-
     console.log(this.state.currentPage + 'component mount')
   }
 
