@@ -90,17 +90,24 @@ class App extends Component {
           <span>
             <button className='nav-button' onClick={() => { this.pageNavigate('PREV') }} disabled={this.state.currentPage === 1}>&#9001;&#9001;</button>
           </span>
-
-          <PageNav
-            curentPage={this.state.currentPage}
-            perPage={this.state.perPage}
-            spacesTotal={this.state.spacesTotal}
-            jumpTo={this.jumpTo}
-          />
+          
+        {this.state.isLoading? (
+          <div>
+          </div>
+        ):
+            <PageNav
+              curentPage={this.state.currentPage}
+              perPage={this.state.perPage}
+              spacesTotal={this.state.spacesTotal}
+              jumpTo={this.jumpTo}
+            />
+        }
+  
           <span>
             <button className='nav-button' onClick={() => { this.pageNavigate('NEXT') }} disabled={this.state.currentPage === 4}>&#9002;&#9002;</button>
           </span>
         </div>
+        
       </div>
     )
   }

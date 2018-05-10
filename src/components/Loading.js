@@ -4,7 +4,7 @@ export default class Loading extends Component {
   render() {
     return (
       <div className='loading-container'>
-        <img src='./loading.gif' alt='loading' />
+        <img className='loading-gif' src='./kittyloading.gif' alt='loading' />
       </div>
     )
   }

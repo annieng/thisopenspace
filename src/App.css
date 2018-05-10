@@ -4,9 +4,14 @@
 }
 .loading-container {
   text-align: center;
-  size: 50rem;
+  size: 25rem;
 }
-
+.loading-gif {
+  text-align: center;
+  margin: 20rem;
+  padding-bottom: 20rem;
+  max-width: 20rem;
+}
 .header {
   border-bottom: 1px solid grey; 
   box-shadow: rgba(0,0,0,0.2) 0px 2px 5px;
